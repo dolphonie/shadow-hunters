@@ -81,14 +81,20 @@ def fuka(gc, player, turn_pos):
             player.gc.ask_h(
                 'confirm', {'options': ["Use special ability"]},
                 player.user_id)
-            data = {'options': [
-                t.user_id for t in gc.getLivePlayers()]}
-            target = player.gc.ask_h(
-                'select', data, player.user_id)['value']
+            # TODO @mlevatich verify that using player.choosePlayer here gives
+            # the desired result
+
+            # data = {'options': [
+            #     t.user_id for t in gc.getLivePlayers()]}
+            # target = player.gc.ask_h(
+            #     'select', data, player.user_id)['value']
 
             # Set selected player to 7 damage
-            target_Player = [
-                p for p in gc.getLivePlayers() if p.user_id == target][0]
+            # target_Player = [
+            #     p for p in gc.getLivePlayers() if p.user_id == target][0]
+
+            target_Player = player.choosePlayer()
+
             target_Player.setDamage(7, player)
             gc.tell_h("{} gave a killing cure to {}!", [
                       player.user_id, target_Player.user_id])
@@ -182,6 +188,9 @@ def ultra_soul(gc, player, turn_pos):
                       player.user_id, player.character.name,
                       player.character.special_desc])
             gc.tell_h("{} is choosing a target...", [player.user_id])
+
+            # TODO @mlevatich will using player.choosePlayer() work for this
+            # block?
             opts = [p.user_id for p in targets if p != player]
             opts.append('Decline')
             data = {'options': opts}
