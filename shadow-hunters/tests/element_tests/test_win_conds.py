@@ -72,6 +72,17 @@ def test_bob_win():
     p.equipment = ['dummy_equipment'] * 10
     assert p.character.win_cond(gc, p)
 
+def test_bob_kill_win():
+    # Get a game containing Bob
+    gc, ef, p = H.get_game_with_character("Bob")
+
+    # Check that Bob hasn't won initially, or with 4 equips
+    assert not p.character.win_cond(gc, p)
+
+    # Check that Bob wins if he kills a neutral
+    neut = H.get_a_neutral(gc)
+    neut.setDamage(20, p)
+    assert p.character.win_cond(gc, p)
 
 def test_catherine_win():
 

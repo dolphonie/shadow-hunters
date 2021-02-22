@@ -16,7 +16,7 @@ def test_gameplay():
     assert 1
 
 
-def test_regression():
+def skip_test_regression():
     """Test that a refactor or reorganization doesn't affect intermediate or
     final game states when compared to a stable branch.
 

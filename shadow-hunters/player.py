@@ -231,12 +231,12 @@ class Player:
                             roll_result,
                             dryrun=True
                         )
-                        if potential_damage >= 2 and len(t.equipment):
+                        if potential_damage >= 3 and len(t.equipment):
                             # Ask whether to steal equipment or deal damage
                             data = {
                                 'options': [
                                     "Steal equipment",
-                                    "Deal {} damage".format(potential_damage)
+                                    "Don't steal equipment",
                                 ]
                             }
                             choose_steal = self.gc.ask_h(
@@ -247,11 +247,11 @@ class Player:
                                 desired_eq = self.chooseEquipment(t)
                                 t.giveEquipment(self, desired_eq)
                                 self.gc.tell_h(
-                                    ("{} stole {}'s {} instead "
-                                     "of dealing {} damage!"),
-                                    [self.user_id, t.user_id, desired_eq.title,
-                                     potential_damage]
+                                    ("{} stole {}'s {}"),
+                                    [self.user_id, t.user_id, desired_eq.title,]
                                 )
+                                # Actually deal damage
+                                damage_dealt = self.attack(t, roll_result)
                             else:
                                 # Actually deal damage
                                 damage_dealt = self.attack(t, roll_result)
@@ -563,6 +563,13 @@ class Player:
 
         # Set self to null location
         self.location = None
+
+        # PK: handle bob kill
+        if attacker.character.name == "Bob" and self.character.name != "Bob":
+            if self.character.alleg != C.Alleg.Neutral:
+                attacker.setDamage(20, attacker)
+            else:
+                attacker.modifiers["killed_neutral"] = True
 
     def move(self, location):
         self.location = location

@@ -39,7 +39,7 @@ def allie(gc, player):
 def bob(gc, player):
 
     # Bob wins if he has 5+ equipment cards
-    return len(player.equipment) >= 5
+    return len(player.equipment) >= 5 or player.modifiers["killed_neutral"]
 
 
 def catherine(gc, player):

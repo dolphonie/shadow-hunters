@@ -1,13 +1,13 @@
-import card
-import deck
-import character
 import area
-import single_use
+import card
+import character
+import deck
 import hermit
-import win_conditions
+import single_use
 import specials
-
+import win_conditions
 from constants import Alleg, CardType
+
 
 # elements.py
 # Encodes all characters, win conditions, special abilities,
@@ -19,7 +19,6 @@ class ElementFactory:
     """Make all elements needed for the game."""
 
     def __init__(self):
-
         # Initialize white cards
         white_cards = [
             card.Card(
@@ -211,7 +210,7 @@ class ElementFactory:
                 holder=None,
                 is_equip=True,
                 use=lambda is_attack, successful, amt: amt +
-                1 if (is_attack and successful) else amt
+                                                       1 if (is_attack and successful) else amt
             ),
             card.Card(
                 title="Chainsaw",
@@ -221,7 +220,7 @@ class ElementFactory:
                 holder=None,
                 is_equip=True,
                 use=lambda is_attack, successful, amt: amt +
-                1 if (is_attack and successful) else amt
+                                                       1 if (is_attack and successful) else amt
             ),
             card.Card(
                 title="Rusted Broad Axe",
@@ -231,7 +230,7 @@ class ElementFactory:
                 holder=None,
                 is_equip=True,
                 use=lambda is_attack, successful, amt: amt +
-                1 if (is_attack and successful) else amt
+                                                       1 if (is_attack and successful) else amt
             ),
             card.Card(
                 title="Moody Goblin",
@@ -515,7 +514,7 @@ class ElementFactory:
             character.Character(
                 name="Werewolf",
                 alleg=Alleg.Shadow,
-                max_damage=14,
+                max_damage=13,
                 win_cond=win_conditions.shadow,
                 win_cond_desc="All of the Hunters (or 3 Neutrals) are dead.",
                 special=specials.werewolf,
@@ -526,7 +525,7 @@ class ElementFactory:
             character.Character(
                 name="Ultra Soul",
                 alleg=Alleg.Shadow,
-                max_damage=11,
+                max_damage=14,
                 win_cond=win_conditions.shadow,
                 win_cond_desc="All of the Hunters (or 3 Neutrals) are dead.",
                 special=specials.ultra_soul,
@@ -538,7 +537,7 @@ class ElementFactory:
             character.Character(
                 name="Allie",
                 alleg=Alleg.Neutral,
-                max_damage=8,
+                max_damage=9,
                 win_cond=win_conditions.allie,
                 win_cond_desc="You're not dead when the game is over.",
                 special=specials.allie,
@@ -548,13 +547,15 @@ class ElementFactory:
             character.Character(
                 name="Bob",
                 alleg=Alleg.Neutral,
-                max_damage=10,
+                max_damage=12,
                 win_cond=win_conditions.bob,
-                win_cond_desc="You have 5 or more equipment cards.",
+                win_cond_desc="You have 5 or more equipment cards, or you land the killing blow "
+                              "on a neutral character. If you land the killing blow on a shadow"
+                              "or hunter, YOU instantly die",
                 special=specials.bob,
-                special_desc=("If your attack inflicts 2 or more damage, "
+                special_desc=("If your attack inflicts 3 or more damage, "
                               "you may steal an Equipment card from your"
-                              " target instead of giving damage."),
+                              " target (AND give the damage)."),
                 resource_id="bob1",
                 modifiers={'min_players': 4, 'max_players': 6}
             ),
@@ -584,7 +585,7 @@ class ElementFactory:
             character.Character(
                 name="George",
                 alleg=Alleg.Hunter,
-                max_damage=14,
+                max_damage=13,
                 win_cond=win_conditions.hunter,
                 win_cond_desc="All of the Shadows are dead.",
                 special=specials.george,
