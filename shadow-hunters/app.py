@@ -16,8 +16,8 @@ import constants as C
 import concurrency as R
 
 # app config
-template_dir = os.path.abspath('./templates')
-static_dir = os.path.abspath('./static')
+template_dir = os.path.abspath('../templates')
+static_dir = os.path.abspath('../static')
 app = Flask(
     __name__, template_folder=template_dir,
     static_folder=static_dir, static_url_path='/static'

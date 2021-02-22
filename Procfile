@@ -1,1 +1,1 @@
-web: gunicorn app:shadow-hunters/app
+web: gunicorn shadow-hunters.app:app --chdir shadow-hunters
