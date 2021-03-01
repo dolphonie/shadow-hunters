@@ -1,1 +1,1 @@
-web: gunicorn shadow-hunters.app:app --chdir shadow-hunters
+web: unicorn shadow-hunters.app:app --chdir shadow-hunters --worker-class eventlet
