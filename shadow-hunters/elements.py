@@ -61,6 +61,7 @@ class ElementFactory:
             card.Card(
                 title="Spear of Longinus",
                 desc=("If you are a Hunter who has revealed their identity and"
+                      "you have taken 7 or more damage and "
                       " your attack is successful, you give 2 points of extra"
                       " damage."),
                 color=CardType.White,

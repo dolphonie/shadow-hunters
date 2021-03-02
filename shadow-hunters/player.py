@@ -1,8 +1,8 @@
-from agent import Agent
-
-import constants as C
-import concurrency as R
 from collections import defaultdict
+
+import concurrency as R
+import constants as C
+from agent import Agent
 
 
 class Player:
@@ -103,7 +103,6 @@ class Player:
         roll_result = self.rollDice('area')
 
         if self.hasEquipment("Mystic Compass"):
-
             # If player has mystic compass, roll again
             self.gc.tell_h("{}'s {} lets them roll again!",
                            [self.user_id, "Mystic Compass"])
@@ -174,13 +173,13 @@ class Player:
             # Get attackable players
             live_players = self.gc.getLivePlayers(lambda p: p.location)
             targets = [p for p in live_players if (
-                p.location.zone == self.location.zone and p != self)]
+                    p.location.zone == self.location.zone and p != self)]
 
             if self.hasEquipment("Handgun"):
                 self.gc.tell_h("{}'s {} reverses their attack range.", [
-                               self.user_id, "Handgun"])
+                    self.user_id, "Handgun"])
                 targets = [p for p in live_players if (
-                    p.location.zone != self.location.zone and p != self)]
+                        p.location.zone != self.location.zone and p != self)]
 
             # If player has Masamune, can't decline unless there are no options
             opts = [t.user_id for t in targets]
@@ -248,7 +247,7 @@ class Player:
                                 t.giveEquipment(self, desired_eq)
                                 self.gc.tell_h(
                                     ("{} stole {}'s {}"),
-                                    [self.user_id, t.user_id, desired_eq.title,]
+                                    [self.user_id, t.user_id, desired_eq.title, ]
                                 )
                                 # Actually deal damage
                                 damage_dealt = self.attack(t, roll_result)
@@ -284,7 +283,7 @@ class Player:
         # Use card if it's single-use, or add to arsenal if it's equipment
         if drawn.is_equipment:
             self.gc.ask_h('confirm', {'options': [
-                          "Add {} to arsenal".format(drawn.title)]},
+                "Add {} to arsenal".format(drawn.title)]},
                           self.user_id)
             self.gc.tell_h("{} added {} to their arsenal!",
                            [self.user_id, public_title])
@@ -378,7 +377,7 @@ class Player:
 
         # Tell frontend about transfer
         self.gc.tell_h("{} forfeited their {} to {}!", [
-                       self.user_id, eq.title, receiver.user_id])
+            self.user_id, eq.title, receiver.user_id])
         self.gc.update_h()
 
     def hasEquipment(self, equipment_name):
@@ -397,10 +396,10 @@ class Player:
         has_spear = self.hasEquipment("Spear of Longinus")
         is_hunter = self.character.alleg == C.Alleg.Hunter
         is_revealed = self.state == C.PlayerState.Revealed
-        if successful and is_hunter and is_revealed and has_spear:
+        if successful and is_hunter and is_revealed and has_spear and self.damage >= 7:
             if not dryrun:
                 self.gc.tell_h("{} strikes with their {}!", [
-                               self.user_id, "Spear of Longinus"])
+                    self.user_id, "Spear of Longinus"])
             amount += 2
 
         # Return damage dealt
@@ -419,7 +418,7 @@ class Player:
         if self.modifiers['guardian_angel']:
             if not dryrun:
                 self.gc.tell_h("{}\'s {} shielded them from damage!", [
-                               self.user_id, "Guardian Angel"])
+                    self.user_id, "Guardian Angel"])
             return 0
 
         # Compose equipment functions
@@ -436,7 +435,7 @@ class Player:
 
         self.moveDamage(-dealt, attacker=other)
         self.gc.tell_h("{} hit {} for {} damage!", [
-                       other.user_id, self.user_id, dealt])
+            other.user_id, self.user_id, dealt])
 
         if self.state != C.PlayerState.Dead:
             # Check for counterattack
@@ -511,7 +510,7 @@ class Player:
         if self.equipment and self != attacker:
 
             has_silver_rosary = ("Silver Rosary" in [
-                                 e.title for e in attacker.equipment])
+                e.title for e in attacker.equipment])
             has_steal_all_mod = attacker.modifiers['steal_all_on_kill']
 
             if has_silver_rosary or has_steal_all_mod:

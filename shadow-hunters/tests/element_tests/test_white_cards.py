@@ -197,3 +197,21 @@ def test_guardian_angel():
         assert p1.modifiers['guardian_angel']
         p2.attack(p1, 5)
         assert p1.damage == 0
+
+def test_spear_longinus():
+
+    for _ in range(C.N_ELEMENT_TESTS):
+        # Setup rigged game context
+        gc, ef = H.fresh_gc_ef()
+        p1 = H.get_a_hunter(gc)
+        p2 = H.get_a_neutral(gc)
+        c = H.get_card_by_title(ef, "Spear of Longinus")
+
+        # Check that p1 is immune to direct attacks
+        p1.equipment.append(c)
+        p1.attack(p2, 1)
+        p1.reveal()
+        assert p2.damage == 1
+        p1.setDamage(7,p1)
+        p1.attack(p2,1)
+        assert p2.damage == 4
